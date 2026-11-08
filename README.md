@@ -60,18 +60,20 @@ no training is needed. Only load trusted joblib artifacts.
 
 ## Deployment Status
 
-Hugging Face deployment is postponed until the GitHub repository is finalized.
-No public Space URL has been verified for this revision. The existing Space
-settings block is retained for later deployment. Local execution is supported;
-GitHub hosts the source, not a running Gradio application. An exemption based
-on all members being unable to create a Space has not been verified.
+The public Gradio application is deployed at
+[QuickBite Late Order Check](https://huggingface.co/spaces/mmatthewkaya/quickbitelab06)
+on Hugging Face Spaces using CPU Basic hardware. The build completed and the
+Space reached RUNNING. A live valid-order request returned a probability and
+voucher decision; an invalid distance was rejected by validation. The deployed
+model file SHA-256 matches the repository artifact, and `model_info.json` is
+identical. The app reports the saved 0.30 threshold.
 
 ## Team
 
 | Member | Actual contribution |
 |---|---|
 | Ibrahim Gebrel | Initial repository implementation: saved model integration, prediction and validation logic, Gradio interface, automated tests, environment configuration, and documentation. |
-| Muharrem Kaya (`matthewkaya`) | Reviewed saved model/metadata consistency; pinned direct dependencies; shared categorical choices between validation and UI; added boundary, validation, model consistency and UI error tests; corrected local-run instructions, deployment status, verification and team documentation. |
+| Muharrem Kaya (`matthewkaya`) | Reviewed saved model/metadata consistency; pinned direct dependencies; shared categorical choices between validation and UI; added boundary, validation, model consistency and UI error tests; corrected local-run instructions and team documentation, deployed the existing application to the Hugging Face Space, verified live valid and invalid inputs, and updated deployment status. |
 
 Other member names and contributions have not been confirmed and are not
 attributed here. The team must confirm the complete roster before submission.
@@ -92,7 +94,7 @@ available. The available Lab 06 announcement provides this provisional checklist
 | Required quality checks | Commands and observed results in Tests below. |
 | Reproducible direct dependencies | Pinned requirements, Python 3.11 Conda environment; transitive dependencies are not locked. |
 | Member contributions | Confirmed contributions above; complete roster and each member's participation unverified. |
-| Public Space or confirmed exemption | Pending separate deployment work; neither verified. |
+| Public Space or confirmed exemption | Public Space deployed and live at the URL above; exemption is not applicable. |
 
 ## Decisions
 

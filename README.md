@@ -24,43 +24,75 @@ should receive a $4 voucher.
 
 ## How to Run Locally
 
-## Deployment Status
-This application was hosted on GitHub and can be run locally following the information provided on how to run the app and use it.
-As the deployment by Hugging Face Gradio is not working for all group members, in accordance with the lab 06 explanation by Professor Hossein we will not be adding a Public Hugging Face Space in our GitHub repository.
-The Gradio app can be started locally by using:
-Python app. Py
-
-### 1. Clone the Repository
+Use Python 3.11. Clone the repository and install the local application and test
+requirements (core requirements alone do not include Gradio).
 
 ```bash
 git clone https://github.com/igebrel/lab06-ship-it.git
 cd lab06-ship-it
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-dev.txt
 ```
 
-### 2. Create the Conda Environment
+On Windows, activate with `.venv\Scripts\activate` instead. Alternatively:
 
 ```bash
 conda env create -f environment.yml
 conda activate lab06-ship-it
 ```
 
-### 3. Launch the Application
+Launch the application:
 
 ```bash
 python app.py
 ```
 
-Open the local Gradio URL displayed in the terminal,
-usually http://127.0.0.1:7860.
-
-### 4. Run Automated Tests
+Open the local URL printed in the terminal, usually http://127.0.0.1:7860.
+The instructor's reload command is also supported:
 
 ```bash
-python -m pytest -v
-python -m ruff format --check .
-python -m ruff check .
+gradio app.py
 ```
 
+The existing Lab 05 pipeline is loaded from `models/late_orders.joblib`;
+no training is needed. Only load trusted joblib artifacts.
+
+## Deployment Status
+
+Hugging Face deployment is postponed until the GitHub repository is finalized.
+No public Space URL has been verified for this revision. The existing Space
+settings block is retained for later deployment. Local execution is supported;
+GitHub hosts the source, not a running Gradio application. An exemption based
+on all members being unable to create a Space has not been verified.
+
+## Team
+
+| Member | Actual contribution |
+|---|---|
+| Ibrahim Gebrel | Initial repository implementation: saved model integration, prediction and validation logic, Gradio interface, automated tests, environment configuration, and documentation. |
+| Muharrem Kaya (`matthewkaya`) | Reviewed saved model/metadata consistency; pinned direct dependencies; shared categorical choices between validation and UI; added boundary, validation, model consistency and UI error tests; corrected local-run instructions, deployment status, verification and team documentation. |
+
+Other member names and contributions have not been confirmed and are not
+attributed here. The team must confirm the complete roster before submission.
+
+## Requirements Review
+
+The supplied assignment PDF is **AIGC 5005 Midterm Project: Predict No-Shows**
+(Maple Physio), not the QuickBite Lab 06 handout. Its separate training, classes,
+and dataset requirements have not been substituted for this Lab 06 project.
+Full Lab 06 rubric compliance remains unverified until the correct handout is
+available. The available Lab 06 announcement provides this provisional checklist:
+
+| Requirement | Evidence / status |
+|---|---|
+| Existing Lab 05 pipeline and metadata | Saved artifacts retained; feature order and threshold checked by tests. |
+| Matching inputs, validation and optional preparation warning | Eight metadata features; numeric/category checks and missing-value tests. |
+| Local Gradio application | `app.py`; launch commands above. |
+| Required quality checks | Commands and observed results in Tests below. |
+| Reproducible direct dependencies | Pinned requirements, Python 3.11 Conda environment; transitive dependencies are not locked. |
+| Member contributions | Confirmed contributions above; complete roster and each member's participation unverified. |
+| Public Space or confirmed exemption | Pending separate deployment work; neither verified. |
 
 ## Decisions
 
@@ -106,6 +138,11 @@ the user that the preparation time was not provided.
 ## Result
 
 ### Model Evaluation
+
+Results below are transcribed from `models/model_info.json`. The Lab 05
+training data and evaluation script are not included, so the metrics cannot be
+independently recomputed here. Artifact consistency checks do not establish
+that the original evaluation avoided leakage.
 
 The QuickBite application uses the trained machine learning
 pipeline developed in Lab 05.
@@ -219,9 +256,12 @@ python -m ruff check .
 
 ### Verified Results
 
-- 18 automated pytest test cases passed.
+- 38 automated pytest test cases passed.
 - Ruff code-quality checks passed.
 - Python formatting was verified using Ruff.
+
+Checks used the existing Python 3.11 environment, not a newly installed Conda
+environment. A clean source export was also checked using those dependencies.
 
 These tests help confirm that the application behaves
 consistently and that its dependencies are configured

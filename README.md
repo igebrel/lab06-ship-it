@@ -24,6 +24,12 @@ should receive a $4 voucher.
 
 ## How to Run Locally
 
+## Deployment Status
+This application was hosted on GitHub and can be run locally following the information provided on how to run the app and use it.
+As the deployment by Hugging Face Gradio is not working for all group members, in accordance with the lab 06 explanation by Professor Hossein we will not be adding a Public Hugging Face Space in our GitHub repository.
+The Gradio app can be started locally by using:
+Python app. Py
+
 ### 1. Clone the Repository
 
 ```bash

@@ -74,7 +74,7 @@ identical. The app reports the saved 0.30 threshold.
 | Member | Verified contribution |
 |---|---|
 | Ibrahim Gebrel | Initial QuickBite application development; Lab 05 model integration; prediction and validation implementation; Gradio interface; initial tests and documentation. |
-| Stebin George | Official Group 01 member. Individual contributions have not been confirmed. |
+| Stebin George | Added the test that the saved model loads once, and explained why each input limit exists, including the difference between `snow` and `Snow`. |
 | Muharrem Kaya (`matthewkaya`) | Repository review and improvements; dependency version consistency; input validation improvements; additional automated tests; README and documentation improvements; Hugging Face Space deployment; deployment verification and model consistency checks. |
 | Joshua Obiha | Official Group 01 member. Individual contributions have not been confirmed. |
 
@@ -96,16 +96,18 @@ identical. The app reports the saved 0.30 threshold.
 The QuickBite model uses eight input features to estimate
 the probability of a late food delivery.
 
-| Feature | Valid Values | Description |
+| Feature | Valid Values | Why this limit |
 |---|---|---|
-| distance_km | 0.1–30 | Delivery distance in kilometres |
-| items | 1–20 | Number of items in the order |
-| hour | 10–22 | Order hour in 24-hour format |
-| prep_minutes | 1–60 or blank | Restaurant preparation time |
-| courier_months | 0–120 | Courier experience in months |
-| weather | clear, rain, snow | Weather conditions |
-| day_type | weekday, weekend | Type of day |
-| vehicle | bike, scooter, car | Courier transportation |
+| distance_km | 0.1–30 | Training orders stayed inside this distance. A trip outside it is refused, because the model has no basis for a score there. |
+| items | 1–20, whole number | The model only saw orders of this size. A fraction is not an item count, so it is refused. |
+| hour | 10–22, whole number | Trained orders fall in these hours. An hour outside that window is refused. |
+| prep_minutes | 1–60, or blank | Blank is the one allowed gap: the pipeline fills the training median and the page warns. Any other missing field is refused. A time outside 1–60 was not in the training range. |
+| courier_months | 0–120 | Courier experience in the training data stays in this range. |
+| weather | clear, rain, snow | These are the only weather labels the encoder learned. Anything else, including a capital letter, is refused. |
+| day_type | weekday, weekend | These are the only day labels the encoder learned. |
+| vehicle | bike, scooter, car | These are the only vehicle labels the encoder learned. |
+
+A 5 km weekday bike order at 18:00, with 3 items, 20 minutes of prep, and a courier who has 12 months of experience, scores 0.496 when the weather is `snow`. The same order with `Snow` scores 0.429. The one-hot encoder uses `handle_unknown="ignore"`, so `Snow` is treated as none of clear, rain, or snow, and the page would still look successful. `validate_order` rejects `Snow` and names `weather`. The dropdown only offers the lowercase choices, so a dispatcher cannot submit that typo.
 
 ### Voucher Decision Rule
 
@@ -232,6 +234,7 @@ The prediction tests verify:
 - Missing preparation time is handled correctly.
 - Invalid numerical inputs are rejected.
 - Invalid categorical inputs are rejected.
+- The saved pipeline is loaded once, when `predict` is imported, and not again for each order.
 
 ### Deployment Tests
 
@@ -251,7 +254,7 @@ python -m ruff check .
 
 ### Verified Results
 
-- 38 automated pytest test cases passed.
+- 39 automated pytest test cases passed.
 - Ruff code-quality checks passed.
 - Python formatting was verified using Ruff.
 

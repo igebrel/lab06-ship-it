@@ -1,3 +1,6 @@
+import importlib
+
+import joblib
 import pytest
 
 from predict import predict_order
@@ -202,3 +205,23 @@ def test_saved_pipeline_matches_metadata():
     assert list(MODEL.feature_names_in_) == FEATURE_COLUMNS
     assert list(MODEL.classes_) == [0, 1]
     assert 0 <= THRESHOLD <= 1
+
+
+def test_model_file_is_loaded_once(monkeypatch, valid_order):
+    """Load the pipeline at import time, then score orders without loading again."""
+    import predict
+
+    load_calls = []
+    original_load = joblib.load
+
+    def counting_load(filename, *args, **kwargs):
+        load_calls.append(str(filename))
+        return original_load(filename, *args, **kwargs)
+
+    monkeypatch.setattr(joblib, "load", counting_load)
+    importlib.reload(predict)
+    predict.predict_order(valid_order)
+    predict.predict_order(valid_order)
+
+    assert len(load_calls) == 1
+    assert load_calls[0].endswith("late_orders.joblib")

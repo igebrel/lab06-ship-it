@@ -60,41 +60,34 @@ no training is needed. Only load trusted joblib artifacts.
 
 ## Deployment Status
 
-The public Gradio application is deployed at
-[QuickBite Late Order Check](https://huggingface.co/spaces/mmatthewkaya/quickbitelab06)
-on Hugging Face Spaces using CPU Basic hardware. The build completed and the
-Space reached RUNNING. A live valid-order request returned a probability and
-voucher decision; an invalid distance was rejected by validation. The deployed
+The application is deployed with the Gradio SDK on Hugging Face Spaces using
+CPU Basic hardware. The public application is available at
+[https://huggingface.co/spaces/mmatthewkaya/quickbitelab06](https://huggingface.co/spaces/mmatthewkaya/quickbitelab06).
+The build completed and the Space reached RUNNING. A live valid-order request
+returned a probability and voucher decision; an invalid distance was rejected
+by validation. The deployed
 model file SHA-256 matches the repository artifact, and `model_info.json` is
 identical. The app reports the saved 0.30 threshold.
 
 ## Team
 
-| Member | Actual contribution |
+| Member | Verified contribution |
 |---|---|
-| Ibrahim Gebrel | Initial repository implementation: saved model integration, prediction and validation logic, Gradio interface, automated tests, environment configuration, and documentation. |
-| Muharrem Kaya (`matthewkaya`) | Reviewed saved model/metadata consistency; pinned direct dependencies; shared categorical choices between validation and UI; added boundary, validation, model consistency and UI error tests; corrected local-run instructions and team documentation, deployed the existing application to the Hugging Face Space, verified live valid and invalid inputs, and updated deployment status. |
+| Ibrahim Gebrel | Initial QuickBite application development; Lab 05 model integration; prediction and validation implementation; Gradio interface; initial tests and documentation. |
+| Stebin George | Official Group 01 member. Individual contributions have not been confirmed. |
+| Muharrem Kaya (`matthewkaya`) | Repository review and improvements; dependency version consistency; input validation improvements; additional automated tests; README and documentation improvements; Hugging Face Space deployment; deployment verification and model consistency checks. |
+| Joshua Obiha | Official Group 01 member. Individual contributions have not been confirmed. |
 
-Other member names and contributions have not been confirmed and are not
-attributed here. The team must confirm the complete roster before submission.
+## Lab 06 Requirements and Implementation
 
-## Requirements Review
-
-The supplied assignment PDF is **AIGC 5005 Midterm Project: Predict No-Shows**
-(Maple Physio), not the QuickBite Lab 06 handout. Its separate training, classes,
-and dataset requirements have not been substituted for this Lab 06 project.
-Full Lab 06 rubric compliance remains unverified until the correct handout is
-available. The available Lab 06 announcement provides this provisional checklist:
-
-| Requirement | Evidence / status |
+| Requirement | Implementation |
 |---|---|
-| Existing Lab 05 pipeline and metadata | Saved artifacts retained; feature order and threshold checked by tests. |
-| Matching inputs, validation and optional preparation warning | Eight metadata features; numeric/category checks and missing-value tests. |
-| Local Gradio application | `app.py`; launch commands above. |
-| Required quality checks | Commands and observed results in Tests below. |
-| Reproducible direct dependencies | Pinned requirements, Python 3.11 Conda environment; transitive dependencies are not locked. |
-| Member contributions | Confirmed contributions above; complete roster and each member's participation unverified. |
-| Public Space or confirmed exemption | Public Space deployed and live at the URL above; exemption is not applicable. |
+| Saved Lab 05 model | `models/late_orders.joblib` and `models/model_info.json` are retained; the application loads the saved pipeline. |
+| Metadata-driven prediction | Eight saved model features are collected in the Gradio interface; the saved threshold is 0.30. |
+| Input validation | Numeric ranges, whole-number fields, supported categories, and optional missing preparation time are validated; invalid inputs show an error. |
+| Local application | `app.py` runs with Gradio; installation and launch commands are above. |
+| Public deployment | Gradio Space is running on CPU Basic at the public URL above. |
+| Reproducible direct dependencies | Core dependencies are pinned in `requirements.txt`; Python 3.11 and Gradio SDK metadata are in the Space README settings block. |
 
 ## Decisions
 
@@ -270,6 +263,12 @@ consistently and that its dependencies are configured
 correctly.
 
 
+
+## Submission
+
+- GitHub repository: https://github.com/igebrel/lab06-ship-it
+- Public Hugging Face Space: https://huggingface.co/spaces/mmatthewkaya/quickbitelab06
+- Group: Group 01 — Ibrahim Gebrel, Stebin George, Muharrem Kaya, Joshua Obiha
 
 ## References
 

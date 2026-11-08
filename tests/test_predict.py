@@ -160,3 +160,45 @@ def test_invalid_categorical_inputs(valid_order, feature, invalid_value):
 
     with pytest.raises(ValueError, match=feature):
         predict_order(order)
+
+
+@pytest.mark.parametrize("offset, expected", [(-1e-9, False), (0, True), (1e-9, True)])
+def test_threshold_boundary(offset, expected):
+    from predict import THRESHOLD, voucher_decision
+
+    assert voucher_decision(THRESHOLD + offset) is expected
+
+
+@pytest.mark.parametrize(
+    "feature, value",
+    [
+        ("distance_km", None),
+        ("distance_km", float("nan")),
+        ("distance_km", float("inf")),
+        ("distance_km", True),
+        ("items", 1.5),
+        ("hour", 18.5),
+        ("weather", None),
+        ("vehicle", "Car"),
+    ],
+)
+def test_invalid_missing_and_nonfinite_inputs(valid_order, feature, value):
+    valid_order[feature] = value
+    with pytest.raises(ValueError, match=feature):
+        predict_order(valid_order)
+
+
+@pytest.mark.parametrize("missing", [None, "", "  "])
+def test_optional_preparation_variants(valid_order, missing):
+    valid_order["prep_minutes"] = missing
+    result = predict_order(valid_order)
+    assert 0 <= result["late_probability"] <= 1
+    assert "prep_minutes" in result["warnings"][0]
+
+
+def test_saved_pipeline_matches_metadata():
+    from predict import FEATURE_COLUMNS, MODEL, THRESHOLD
+
+    assert list(MODEL.feature_names_in_) == FEATURE_COLUMNS
+    assert list(MODEL.classes_) == [0, 1]
+    assert 0 <= THRESHOLD <= 1

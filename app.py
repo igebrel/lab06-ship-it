@@ -1,6 +1,6 @@
 import gradio as gr
 
-from predict import FEATURE_COLUMNS, THRESHOLD, predict_order
+from predict import CATEGORY_CHOICES, FEATURE_COLUMNS, THRESHOLD, predict_order
 
 
 def run_prediction(
@@ -109,21 +109,21 @@ with gr.Blocks(title="QuickBite Late Order Check") as demo:
 
     with gr.Row():
         weather = gr.Dropdown(
-            choices=["clear", "rain", "snow"],
+            choices=list(CATEGORY_CHOICES["weather"]),
             label="Weather Conditions",
             value="clear",
             info="Select the weather conditions for the delivery.",
         )
 
         day_type = gr.Dropdown(
-            choices=["weekday", "weekend"],
+            choices=list(CATEGORY_CHOICES["day_type"]),
             label="Day Type",
             value="weekday",
             info="Select whether the order is on a weekday or weekend.",
         )
 
         vehicle = gr.Dropdown(
-            choices=["bike", "scooter", "car"],
+            choices=list(CATEGORY_CHOICES["vehicle"]),
             label="Delivery Vehicle Type",
             value="bike",
             info="Select the vehicle used for the delivery.",
